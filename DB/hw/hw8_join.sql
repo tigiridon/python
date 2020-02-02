@@ -1,35 +1,35 @@
 
 
-   desc target_types;
-select * from target_types;
---  stalo
-SELECT DISTINCT  media.user_id, COUNT(distinct(media.filename)) as total_messages 
-  FROM media
-    JOIN friendship
-      ON media.user_id = friendship.user_id
-        OR media.user_id = friendship.friend_id
-    JOIN media_types
-      ON media.media_type_id = media_types.id
-    JOIN users 
-      ON users.id = friendship.friend_id
-        OR users.id = friendship.user_id   
-  WHERE users.id = 5 AND media_types.name = 'messages';
-   
-
--- stalo:
-SELECT COUNT(*) AS total_likes
+SELECT (SELECT CONCAT(first_name, ' ', last_name) 
+          FROM users 
+            WHERE id = messages.from_user_id) AS friend_name, 
+  COUNT(messages.id) AS total_messages 
   FROM users
-    JOIN media
-      ON users.id = media.user_id
-    JOIN likes
-      ON media.id = likes.target_id
-    JOIN target_types
-      ON likes.target_type_id = target_types.id
-    JOIN profiles
-      ON users.id = profiles.user_id      
-  WHERE target_types.id = 3
-  ORDER by birthday DESC
-  LIMIT 10;
+    JOIN friendship friendship
+      ON users.id = friendship.user_id
+        OR users.id = friendship.friend_id
+    JOIN messages
+      ON messages.to_user_id = users.id
+        AND (messages.from_user_id = friendship.friend_id
+          OR messages.from_user_id = friendship.user_id)
+  WHERE users.id = 6
+  GROUP BY messages.from_user_id
+  ORDER BY total_messages DESC
+  LIMIT 1;   
+ 
+   
+SELECT SUM(got_likes) AS total_likes_for_youngest
+  FROM (   
+    SELECT COUNT(DISTINCT likes.id) AS got_likes 
+      FROM profiles
+        LEFT JOIN likes
+          ON likes.target_id = profiles.user_id
+            AND target_type_id = 2
+      GROUP BY profiles.user_id
+      ORDER BY profiles.birthday DESC
+      LIMIT 10
+) AS youngest;
+
 
 desc profiles;
  SELECT CASE(sex)
@@ -44,20 +44,32 @@ desc profiles;
   ORDER BY likes_count DESC
   LIMIT 1;
 
-
+SELECT profiles.sex AS SEX, 
+  COUNT(likes.id) AS total_likes
+  FROM likes
+    JOIN profiles
+      ON likes.user_id = profiles.user_id
+    GROUP BY profiles.sex
+    ORDER BY total_likes DESC
+    LIMIT 1;
   -- 5
  
-
-SELECT CONCAT(first_name, ' ', last_name) AS user, COUNT(*) AS total_activity
-FROM users
-    JOIN media
+SELECT users.id,
+  COUNT(DISTINCT messages.id) + 
+  COUNT(DISTINCT likes.id) + 
+  COUNT(DISTINCT media.id) AS activity 
+  FROM users
+    LEFT JOIN messages 
+      ON users.id = messages.from_user_id
+    LEFT JOIN likes
+      ON users.id = likes.user_id
+    LEFT JOIN media
       ON users.id = media.user_id
-    JOIN likes
-      ON media.id = likes.target_id
-    JOIN messages
-      ON messages.from_user_id = users.id     
-ORDER BY total_activity desc
-	LIMIT 1;
+  GROUP BY users.id
+  ORDER BY activity
+  LIMIT 10;
+
+
 
 
 

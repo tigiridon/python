@@ -9,7 +9,7 @@ DELIMITER //
 
 
 CREATE FUNCTION hello()
-RETURNS text  DETERMINISTIC
+RETURNS text  no SQL
 begin
 	IF 06:00 =< DATE_FORMAT(NOW() =< 12:00, "%H:%i") THEN
 	RETURN  'ДОБРОЕ УТРО';
@@ -32,33 +32,36 @@ call hello()//
 
 
 
-CREATE TRIGGER prod_update BEFORE UPDATE ON products
-FOR EACH ROW
-BEGIN
-  DECLARE cat_id INT;
-  SELECT id INTO cat_id FROM catalogs ORDER BY id LIMIT 1;
-  SET NEW.catalog_id = COALESCE(NEW.catalog_id, OLD.catalog_id, cat_id);
+
+
+CREATE TRIGGER insert_products BEFORE INSERT ON products
+FOR EACH ROW BEGIN
+  IF NEW.name IS NULL AND NEW.description IS NULL THEN
+    SIGNAL SQLSTATE '6666'
+    SET MESSAGE_TEXT = 'ALARM!! Oba ima i description ravno NULL';
+  END IF;
 END//
 
 
-CREATE TRIGGER PRO_name_insert BEFORE INSERT ON products
-FOR EACH ROW
-BEGIN
-  DECLARE prod_name text;
-  SELECT name INTO prod_name FROM products ORDER BY id LIMIT 1;
-  SET NEW.name = COALESCE(NEW.name, name);
-   DECLARE prod_des text;
-  SELECT desription INTO prod_des FROM products ORDER BY id LIMIT 1;
-  SET NEW.desription  = COALESCE(NEW.desription , desription);
- 
+
+CREATE TRIGGER update_products BEFORE UPDATE ON products
+FOR EACH ROW BEGIN
+  IF NEW.name IS NULL AND NEW.description IS NULL THEN
+    SIGNAL SQLSTATE '6666'
+    SET MESSAGE_TEXT = 'ALARM!! Oba ima i description ravno NULL';
+  END IF;
 END//
 
 
-CREATE TRIGGER PRO_des_insert BEFORE INSERT ON products
-FOR EACH ROW
+CREATE FUNCTION FIBONACCI(num INT)
+RETURNS INT DETERMINISTIC
 BEGIN
-   DECLARE prod_des text;
-  SELECT desription INTO prod_des FROM products ORDER BY id LIMIT 1;
-  SET NEW.desription  = COALESCE(NEW.desription , desription);
- 
+  DECLARE fs DOUBLE;
+  SET fs = SQRT(5);
+
+  RETURN (POW((1 + fs) / 2.0, num) + POW((1 - fs) / 2.0, num)) / fs;
 END//
+
+SELECT FIBONACCI(10)//
+
+DELIMITER ;
