@@ -1,3 +1,4 @@
+-- hr data base
 create table Personal_ID (
 	Personal_ID  int(10) unsigned NOT NULL auto_increment,
 	Fullname varchar(100) COLLATE utf8_unicode_ci NOT NULL,
