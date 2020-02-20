@@ -51,8 +51,13 @@ create table Unit_ID (
 	Unit_occupied_temporarily_PO date DEFAULT null,
 	Class_subclass_harmfulness  int(2) DEFAULT null,
 <<<<<<< HEAD
+<<<<<<< HEAD
 	Salary_SHE DECIMAL(20) NOT null,
 	Salary DECIMAL(20) NOT null,
+=======
+	Salary_SHE DECIMAL() NOT null,
+	Salary DECIMAL() NOT null,
+>>>>>>> origin/master
 =======
 	Salary_SHE DECIMAL() NOT null,
 	Salary DECIMAL() NOT null,
@@ -109,8 +114,13 @@ create table Data_AVG (
 	Data_AVG_id  int(10) unsigned NOT NULL auto_increment,
 	Personal_ID  int(10) unsigned NOT NULL,
 <<<<<<< HEAD
+<<<<<<< HEAD
 	Average_income_vacation DECIMAL(30)  NOT null,
 	Average_income_sick DECIMAL(30)  NOT null,
+=======
+	Average_income_vacation DECIMAL()  NOT null,
+	Average_income_sick DECIMAL()  NOT null,
+>>>>>>> origin/master
 =======
 	Average_income_vacation DECIMAL()  NOT null,
 	Average_income_sick DECIMAL()  NOT null,
