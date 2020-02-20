@@ -50,8 +50,13 @@ create table Unit_ID (
 	Unit_occupied_temporarily_S date DEFAULT null,
 	Unit_occupied_temporarily_PO date DEFAULT null,
 	Class_subclass_harmfulness  int(2) DEFAULT null,
+<<<<<<< HEAD
 	Salary_SHE DECIMAL(20) NOT null,
 	Salary DECIMAL(20) NOT null,
+=======
+	Salary_SHE DECIMAL() NOT null,
+	Salary DECIMAL() NOT null,
+>>>>>>> origin/master
 	Target_structure varchar(15)  COLLATE utf8_unicode_ci NOT NULL,
 	Input_Basis varchar(30) NOT null,
 	SHE_leader varchar(30)  NOT null,
@@ -103,8 +108,13 @@ create table Appoitment_ID (
 create table Data_AVG (
 	Data_AVG_id  int(10) unsigned NOT NULL auto_increment,
 	Personal_ID  int(10) unsigned NOT NULL,
+<<<<<<< HEAD
 	Average_income_vacation DECIMAL(30)  NOT null,
 	Average_income_sick DECIMAL(30)  NOT null,
+=======
+	Average_income_vacation DECIMAL()  NOT null,
+	Average_income_sick DECIMAL()  NOT null,
+>>>>>>> origin/master
 	PRIMARY KEY (Data_AVG_id)
 ) ENGINE=InnoDB AUTO_INCREMENT=101 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
