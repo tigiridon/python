@@ -23,5 +23,8 @@ response = requests.get(link,headers=headers)
 #print(response.text)
 if response.ok:
     data = json.loads(response.text)
-    print(f'Ссылка на просмотр неба в высоком разрешении {data["hdurl"]}, ссылка на картинку в обычном разрешении {data["url"]}, на дату {data["date"]}, автором фото является {data["copyright"]} ')
+    print(f'Ссылка на просмотр неба в высоком разрешении {data["hdurl"]} ')
+    print(f'ссылка на картинку в обычном разрешении {data["url"]}')
+    print(f'на дату {data["date"]}')
+    print(f' автором фото является {data["copyright"]} ')
 
