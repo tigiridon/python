@@ -195,7 +195,8 @@ for i, _ in df[filter].iterrows():
         compensation_tt = compensation_tt.replace(fr[0], '')
 
     df.loc[i, 'compensation_currency'] = compensation_tt  # the rest to the currency
-#сохраним в csv/ save to csv
-df.to_csv(f'data_from_query_hh_sj.csv', encoding= 'utf-8')
 
+#сохраним в csv/ save to csv
+df= df.drop('compensation', axis=1)
+df.to_csv(f'data_from_query_hh_sj.csv', encoding= 'utf-8')
 
