@@ -198,15 +198,4 @@ for i, _ in df[filter].iterrows():
 #сохраним в csv/ save to csv
 df.to_csv(f'data_from_query_hh_sj.csv', encoding= 'utf-8')
 
-df = pd.read_csv('data_from_query_hh_sj.csv', sep=';')
-mydata = df.to_dict(orient='records')
-#загрузим в базу в первую коллекцию
-mc1.insert_many(mydata)
-#проверим что в базе:
-mylist =list(mc1.find({}))
 
-
-sum_min = int(input('Введите зарплату, минимально от которой будут вакансии'))
-pd.DataFrame(list(mc1.find({'compensation_min': {'$gte': sum_min }},{'_id':0})))
-
-#Написать функцию, которая будет добавлять в вашу базу данных только новые вакансии с сайта
