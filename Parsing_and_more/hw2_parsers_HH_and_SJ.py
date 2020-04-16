@@ -17,6 +17,8 @@ import json
 from pprint import pprint
 import numpy as np
 
+
+
 headers = {'User-Agent':'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/80.0.3987.149 Safari/537.36'}
 #получим имя вакансии/input name vacancy
 vacancy_name = input("Введите наименование вакансии для парсинга с superjob.ru и hh.ru: ")
@@ -196,3 +198,15 @@ for i, _ in df[filter].iterrows():
 #сохраним в csv/ save to csv
 df.to_csv(f'data_from_query_hh_sj.csv', encoding= 'utf-8')
 
+df = pd.read_csv('data_from_query_hh_sj.csv', sep=';')
+mydata = df.to_dict(orient='records')
+#загрузим в базу в первую коллекцию
+mc1.insert_many(mydata)
+#проверим что в базе:
+mylist =list(mc1.find({}))
+
+
+sum_min = int(input('Введите зарплату, минимально от которой будут вакансии'))
+pd.DataFrame(list(mc1.find({'compensation_min': {'$gte': sum_min }},{'_id':0})))
+
+#Написать функцию, которая будет добавлять в вашу базу данных только новые вакансии с сайта
