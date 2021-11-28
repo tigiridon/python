@@ -1,13 +1,22 @@
-# Вводятся три разных числа. Найти, какое из них является
-# средним (больше одного, но меньше другого).
+# 8. Вводятся три разных числа. Найти, какое из них является средним (больше одного, но меньше другого).
 
-a1 = int(input("первое число="))
-a2 = int(input("второе число="))
-a3 = int(input("третье число="))
-if (a1 < a2 < a3) or (a3 < a2 < a1):
-    print(f"среднее число={a2}")
-else:
-    if (a2 < a1 < a3) or (a3 < a1 < a2):
-        print(f"среднее число={a1}")
+a = int(input('First number: '))
+b = int(input('Second number: '))
+c = int(input('Third number: '))
+
+if a > b:
+    if a < c:
+        print(a)
     else:
-        print(f"среднее число={a3}")
+        if b > c:
+            print(b)
+        else:
+            print(c)
+else:
+    if a < c:
+        if b > c:
+            print(c)
+        else:
+            print(b)
+    else:
+        print(a)
